@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Storage;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Resources\CompaniesResource;
+use App\Http\Resource\CompaniesController;
 
 class CompanyController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth', ['except'=>['index', 'showCompany']]);
+        $this->middleware('auth', ['except'=>['index', 'showCompany', 'company']]);
     }
 
     public function index(){
@@ -130,6 +132,12 @@ class CompanyController extends Controller
          }
 
        return redirect('/');
+    }
+    public function companies(){
+        return new CompaniesResource(Company::all());
+    }
+    public function company(Company $company){
+        return new CompaniesResource($company);
     }
  
 }
